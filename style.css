@@ -1,0 +1,115 @@
+@import "./node_modules/@material/card/dist/mdc.card.css";
+
+html{
+    --light-green: #B7ECDD;
+    --dark-green: #1B8E6E;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+}
+
+.nav-section {
+    margin-right:15px;
+    display: flex;
+    align-items: center;
+    transition-property: border-bottom;
+    transition-duration: 0.5s;
+    padding:10px;
+}
+
+.nav-section:last-child {
+    margin-right:0;
+}
+
+.nav-section-active {
+    border-bottom-width: 0.3rem;
+    border-bottom-color: black;
+    border-bottom-style: solid;
+}
+
+.initial-screen {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.laptop-guy {
+    position: relative;
+}
+
+.initial-screen .my-name {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.title-and-description {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid black;
+    text-align: center;
+    height: 500px;
+}
+
+.title-and-description .title {
+    margin-bottom: 30px;
+}
+
+.title-and-description .contact {
+    display: flex;
+    margin-top: 50px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.title-and-description .contact img {
+    margin-right: 10px;
+}
+
+.card {
+    width: 350px;
+    background-color: var(--light-green);
+}
+
+.mdc-card__media img {
+    width: 100%;
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.card-picture {
+    background-color: var(--dark-green);
+}
+
+.work-cards {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.work {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.work h2 {
+    text-align: center;
+}
