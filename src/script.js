@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import '../index.html'
 import '../style.css'
 
 let breakpoints = []
@@ -8,7 +7,7 @@ const BP_LEVEL1 = 600
 let breakElements
 let tabElemMap
 
-ReactDOM.render(<Website />, document.getElementById('root'))
+ReactDOM.render(<Website />, document.querySelector('body'))
 
 function Website() {
   return (
@@ -70,6 +69,15 @@ function NavSection(props) {
     <div onClick={(e) => {
       const elem = tabElemMap[props.text]
       elem.scrollIntoView()
+      let rem = getComputedStyle(document.querySelector('html')).getPropertyValue('font-size')
+      if (rem === ""){
+        rem = 16;
+      } else {
+        console.log('Parsing...')
+        rem = parseInt(rem)
+        console.log('Rem = ', rem)
+      }
+      window.scrollBy(null, -7*rem)
     }} ref={elemRef} className="nav-section">
       {props.text}
     </div>
@@ -132,8 +140,8 @@ function Content() {
                 <img src="img/email-icon.svg" className='contact-icon'/>
                 <div>br.ribaric@gmail.com</div>
               </div>
-              <img src="img/linkedin.svg" className="contact-icon" />
-              <img src="img/github.svg" className="contact-icon" />
+              <a href="https://www.linkedin.com/in/bruno-r-811430123/"><img src="img/linkedin.svg" className="contact-icon" /></a>
+              <a href="https://github.com/ribaricplusplus"><img src="img/github.svg" className="contact-icon" /></a>
             </div>
           </div>
         </div>
@@ -162,11 +170,18 @@ function Content() {
                      listItems={skillsList.map(skill => <li>{skill}</li>)}/>
       </div>
       <footer>
-        <div className="links">
-          <div>Links:</div>
-          <div className="links-icons">
-            <img src="img/linkedin.svg"/>
-            <img src="img/github.svg"/>
+        <div className="wrapper">
+          <div className="footer-contact">
+            <div>Contact:</div>
+            <div className="email">br.ribaric@gmail.com</div>
+          </div>
+          <div className="links">
+            <div>Links:</div>
+            <div className="links-icons">
+              <a href="https://www.linkedin.com/in/bruno-r-811430123/"><img src="img/linkedin.svg"/></a>
+              <a href="https://github.com/ribaricplusplus"><img src="img/github.svg"/></a>
+            </div>
+            
           </div>
           <div>
             Icons made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> and <a href="">Pixel perfect</a> from <a href="https://www.flaticon.com/">flaticon.com</a>

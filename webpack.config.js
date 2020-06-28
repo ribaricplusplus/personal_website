@@ -1,4 +1,5 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const buildAbsolutePath = path.join(__dirname, 'build')
 
@@ -61,16 +62,52 @@ exports.dev = {
 exports.devAdvanced = {
   mode: 'development',
   target: 'web',
-  entry: path.join(__dirname, 'src', 'script.js'),
+   entry:{
+    main: path.join(__dirname, 'src', 'script.js'),
+    transpiler: path.join(__dirname, 'src', 'projects', 'transpiler', 'script.js'),
+    tools: path.join(__dirname, 'src', 'projects', 'tools', 'script.js'),
+    extension: path.join(__dirname, 'src', 'projects', 'extension', 'script.js')
+  },
   output: {
     path: buildAbsolutePath,
-    filename: 'script.js'
+    filename: (pathData) => {
+      switch (pathData.chunk.name){
+      case 'transpiler': return 'projects/transpiler/[name].[contenthash].js'; break;
+      case 'tools': return 'projects/tools/[name].[contenthash].js'; break;
+      case 'extension': return 'projects/extension/[name].[contenthash].js'; break;
+      default: return '[name].[contenthash].js';
+      }
+    }
   },
+  plugins: [new HtmlWebpackPlugin({title: 'RibaricPlusPlus',
+                                   filename: 'index.html',
+                                   chunks: ['main'],
+                                   meta: {viewport: 'width=device-width, initial-scale=1'}
+                                  }),
+            new HtmlWebpackPlugin({
+              title: 'RibaricPlusPlus',
+              filename: 'projects/transpiler/index.html',
+              chunks: ['transpiler'],
+              meta: {viewport: 'width=device-width, initial-scale=1'}
+            }),
+           new HtmlWebpackPlugin({
+              title: 'RibaricPlusPlus',
+              filename: 'projects/tools/index.html',
+              chunks: ['tools'],
+              meta: {viewport: 'width=device-width, initial-scale=1'}
+           }),
+           new HtmlWebpackPlugin({
+              title: 'RibaricPlusPlus',
+              filename: 'projects/extension/index.html',
+              chunks: ['extension'],
+              meta: {viewport: 'width=device-width, initial-scale=1'}
+            })],
   devServer: {
     open: true,
     contentBase: buildAbsolutePath,
     port: 8000,
-    watchContentBase: true
+    watchContentBase: true,
+    writeToDisk: true
   },
   module:{
     rules: [
@@ -86,36 +123,30 @@ exports.devAdvanced = {
         ]
       },
       {
-        test: /\.(html)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name(resourcePath) {
-                if (resourcePath.match(/\.(html)$/)){
-                  return 'index.html'
-                }
-                else if(resourcePath.match(/style\.css$/)){
-                  return 'style.css'
-                } else {
-                  return '[contenthash].[ext]'
-                }
-              }
-            }
-          }
-        ]
-      },
-      {
         test: /\.css$/,
         use: [
           {
             loader: 'style-loader',
-            options: {
-              injectType: 'linkTag'
-            }
           },
           {
-            loader: 'file-loader'
+            loader: 'file-loader',
+            options: {
+              outputPath: (url, resourcePath, context) => {
+                const relative = path.relative(context, resourcePath)
+                if (relative.match(/transpiler/)) {
+                  return `projects/transpiler/${url}`
+                }
+                else if (relative.match(/tools/)) {
+                  return `projects/tools/${url}`
+                }
+                else if (relative.match(/extension/)) {
+                  return `projects/extension/${url}`
+                }
+                else {
+                  return 'css'
+                }
+              }
+            }            
           },
           {
             loader: 'extract-loader'

@@ -12,9 +12,9 @@ function lint(done){
 }
 
 function runChildProcess(name, args, done){
-  const results = child_process.spawnSync(name, args, {stdio: 'pipe'})
-  console.error(results.stderr.toString())
-  console.log(results.stdout.toString())
+  const results = child_process.spawnSync(name, args, {encoding: 'utf8', stdio: 'pipe'})
+  console.error(results.stderr)
+  console.log(results.stdout)
   if (results.error) {
     done(results.stderr)
   }
