@@ -129,29 +129,6 @@ exports.devAdvanced = {
             loader: 'style-loader',
           },
           {
-            loader: 'file-loader',
-            options: {
-              outputPath: (url, resourcePath, context) => {
-                const relative = path.relative(context, resourcePath)
-                if (relative.match(/transpiler/)) {
-                  return `projects/transpiler/${url}`
-                }
-                else if (relative.match(/tools/)) {
-                  return `projects/tools/${url}`
-                }
-                else if (relative.match(/extension/)) {
-                  return `projects/extension/${url}`
-                }
-                else {
-                  return 'css'
-                }
-              }
-            }            
-          },
-          {
-            loader: 'extract-loader'
-          },
-          {
             loader: 'css-loader'
           }
         ]
