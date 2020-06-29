@@ -1,0 +1,23 @@
+.project-info {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.meta-data > div:first-child{
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+@media (max-width: 800px){
+    .meta-data > div:first-child{
+        margin-bottom: 0rem;
+    }
+    
+    .meta-data{
+        margin: 10px;
+    }
+    
+    .project-info{
+        flex-direction: column;
+    }
+}

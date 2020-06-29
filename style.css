@@ -1,6 +1,7 @@
 @import "./node_modules/@material/card/dist/mdc.card.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 html{
+    --gray: #D6CFC7;
     --light-green: #B7ECDD;
     --dark-green: #1B8E6E;
     --largest-font: 2.375rem;
@@ -13,12 +14,13 @@ html{
 }
 
 body {
+    position: relative;
     margin: 0;
     box-sizing:border-box;
     min-height: 100vh;
     max-width: 2500px;
     width: 100%;
-    padding: 2rem 0.7rem 0 0.7rem;
+    padding: 2rem 0.7rem 15rem 0.7rem;
 }
 
 h1 {
@@ -139,6 +141,10 @@ h2 {
 
 .card {
     width: 350px;
+    cursor: pointer;
+}
+
+.card:hover{
     background-color: var(--light-green);
 }
 
@@ -147,11 +153,10 @@ h2 {
 }
 
 .card-content {
+    display: flex;
+    flex-direction: column;
     padding: 16px;
-}
-
-.card-picture {
-    background-color: var(--dark-green);
+    min-height: 14rem;
 }
 
 .work-cards {
@@ -170,13 +175,16 @@ h2 {
     padding: 0 0 3rem 0;
 }
 
-footer {
-    padding: 2rem 0 6rem;
-    background-color: #C4C4C4;
+.technologies {
+    margin-top: auto;
 }
 
-.technologies {
-    margin-top: 50px;
+.technology {
+    display: inline-block;
+    background-color: var(--gray);
+    margin: 2px;
+    padding: 4px;
+    border-radius: 14%;
 }
 
 .skills-and-services {
@@ -216,6 +224,10 @@ footer {
     margin: 2rem 0;
 }
 
+.work-row:hover{
+    background-color: var(--light-green);
+}
+
 .work-row h2{
     font-size: var(--large-font);
 }
@@ -233,31 +245,7 @@ footer {
     width: 80%;
 }
 
-footer .wrapper{
-    width: 60%;
-    min-width: 40ch;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-footer .footer-contact{
-    display: flex;
-    margin-bottom: 1rem;
-}
-
-footer .links{
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-footer img{
-    margin: 1rem;
-}
-
-footer .email{
-    margin-left: 1rem;
-}
 
 @media (max-width: 1100px){
     .card{

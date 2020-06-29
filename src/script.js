@@ -1,6 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Footer from './footer.js'
 import '../style.css'
+import laptopGuy from '../img/laptop-guy.svg'
+import emailIcon from '../img/email-icon.svg'
+import linkedIn from '../img/linkedin.svg'
+import photomathLogo from '../img/PhotoMath_Logo.png'
+import geogebraLogo from '../img/geogebra.svg'
+import pluginLogo from '../img/plugin.svg'
+import githubLogo from '../img/github.svg'
+import servicesIcon from '../img/services.svg'
+import skillsIcon from '../img/skills.svg'
+
 
 let breakpoints = []
 const BP_LEVEL1 = 600
@@ -109,17 +120,20 @@ function Content() {
     compiler: {
       title: "LaTeX transpiler",
       description: "Tool built for Photomath that transpiles LaTeX expressions into syntax used by the internal Photomath calculator.",
-      technologies: ['JavaScript', 'React', 'MobX', 'Webpack', 'Node.js', 'Parsing Expression Grammar', 'peg.js']
+      technologies: ['JavaScript', 'React', 'MobX', 'Webpack', 'Node.js', 'Parsing Expression Grammar', 'peg.js'],
+      link: 'projects/transpiler'
     },
     tools: {
       title: "GeoGebra tools",
       description: "Built for Photomath. Application used by graphical artists for creating complex GeoGebra constructions and solving inequalities graphically.",
-      technologies: ['JavaScript', 'React', 'MobX', 'Semantic UI', 'GeoGebra API', 'Webpack', 'Gulp']
+      technologies: ['JavaScript', 'React', 'MobX', 'Semantic UI', 'GeoGebra API', 'Webpack', 'Gulp'],
+      link: 'projects/tools'
     },
     extension: {
-      title: "Wikipedia extended",
-      description: "Cross-browser extension that shows free online courses, books, and other material related to a Wikipedia page that a user is reading.",
-      technologies: ['JavaScript', 'Chrome/Firefox/Opera API', 'Coursera/edX API', 'Wikipedia API']
+      title: "Curious stats",
+      description: "Extremely simple Chrome extension, created just as proof of concept that I can build and publish extensions.",
+      technologies: ['JavaScript', 'Chrome Extension API'],
+      link: 'projects/extension'
     }
   }
   return (
@@ -128,7 +142,7 @@ function Content() {
         <div className="initial-screen ">
           <div className="laptop-guy">
             <div className="my-name">Bruno</div>
-            <img id="laptop-guy" src="img/laptop-guy.svg" />
+            <img id="laptop-guy" src={laptopGuy} />
           </div>
           <div className="title-and-description">
             <div className="title"> Web Developer </div>
@@ -137,11 +151,11 @@ function Content() {
             </div>
             <div className="contact-links">
               <div className="contact">
-                <img src="img/email-icon.svg" className='contact-icon'/>
+                <img src={emailIcon} className='contact-icon'/>
                 <div>br.ribaric@gmail.com</div>
               </div>
-              <a href="https://www.linkedin.com/in/bruno-r-811430123/"><img src="img/linkedin.svg" className="contact-icon" /></a>
-              <a href="https://github.com/ribaricplusplus"><img src="img/github.svg" className="contact-icon" /></a>
+              <a href="https://www.linkedin.com/in/bruno-r-811430123/"><img src={linkedIn} className="contact-icon" /></a>
+              <a href="https://github.com/ribaricplusplus"><img src={githubLogo} className="contact-icon" /></a>
             </div>
           </div>
         </div>
@@ -150,44 +164,26 @@ function Content() {
         <h1 className="breakpoint work-samples-title">Work samples</h1>
         <div className="work-cards">
           <WorkSampleCard
-            mediaSource="img/PhotoMath_Logo.png"
+            mediaSource={photomathLogo}
             content={cardContents.compiler}
           />
           <WorkSampleCard
-            mediaSource="img/geogebra.svg"
+            mediaSource={geogebraLogo}
             content={cardContents.tools}
           />
           <WorkSampleCard
-            mediaSource="img/plugin.svg"
+            mediaSource={pluginLogo}
             content={cardContents.extension}
           />
         </div>
       </div>
       <div className="skills-and-services breakpoint">
-        <DisplayList type="services" icon="img/services.svg" title="Services"
+        <DisplayList type="services" icon={servicesIcon} title="Services"
                      listItems={servicesList.map(service => <li>{service}</li>)}/>
-        <DisplayList type="skills" icon="img/skills.svg" title="Skills"
+        <DisplayList type="skills" icon={skillsIcon} title="Skills"
                      listItems={skillsList.map(skill => <li>{skill}</li>)}/>
       </div>
-      <footer>
-        <div className="wrapper">
-          <div className="footer-contact">
-            <div>Contact:</div>
-            <div className="email">br.ribaric@gmail.com</div>
-          </div>
-          <div className="links">
-            <div>Links:</div>
-            <div className="links-icons">
-              <a href="https://www.linkedin.com/in/bruno-r-811430123/"><img src="img/linkedin.svg"/></a>
-              <a href="https://github.com/ribaricplusplus"><img src="img/github.svg"/></a>
-            </div>
-            
-          </div>
-          <div>
-            Icons made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> and <a href="">Pixel perfect</a> from <a href="https://www.flaticon.com/">flaticon.com</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </React.Fragment>
   )
 }
@@ -202,6 +198,9 @@ function Content() {
  */
 function WorkSampleCard(props) {
   const [viewportWidth, setViewportWidth] = React.useState(window.innerWidth)
+  const technologies = props.content.technologies.map((tech) => 
+                                                      <span className="technology">{tech}</span>
+                                                     )
   React.useEffect(() => {
     const resizeHandler = () => {
       setViewportWidth(window.innerWidth)
@@ -211,15 +210,18 @@ function WorkSampleCard(props) {
       window.removeEventListener('resize', resizeHandler)
     }
   }, [])
+  const handleClick = () => {
+    window.location.pathname = '/' + props.content.link
+  }
   const cardVersion = (
-    <div className="mdc-card mdc-card--outlined card">
+    <div onClick={handleClick} className="mdc-card mdc-card--outlined card">
       <div className="mdc-card__media card-picture">
         <img src={props.mediaSource} />
       </div>
       <div className="card-content">
         <h2>{props.content.title}</h2>
         <div>{props.content.description}</div>
-        <div>Technologies will go here</div>
+        <div className="technologies">{technologies}</div>
       </div>
     </div>
   )

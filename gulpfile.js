@@ -6,6 +6,8 @@ const webpackServer = require('webpack-dev-server')
 const path = require('path')
 const fs = require('fs')
 
+const DEPLOYMENT_PATH = '/home/bruno/projects/personal-website-deployment/ribaricplusplus.github.io'
+
 function lint(done){
   runChildProcess('npx', ['eslint', '--fix', 'src'], done)
   done()
@@ -26,8 +28,26 @@ async function createBuildDirectory(){
   await fs.promises.mkdir('build')
 }
 
-function buildProduction(done){
-  
+async function buildProduction(done){
+  await createBuildDirectory()
+  const compiler = webpack(webpackConfig.prod)
+  compiler.run((err, stats) => {
+    const statsData = stats.toJson()
+    if (stats.hasErrors()){
+      done(statsData.errors)
+    }
+    if (stats.hasWarnings()){
+      console.log(statsData.warnings)
+    }
+    console.log(stats.toString({color: true}))
+    done()
+  })
+}
+
+// Assumes that the website is built
+function deploy(done){
+  child_process.execSync(`DEPLOYMENT_PATH=${DEPLOYMENT_PATH} ROOT_DIR=${__dirname} ${path.join(__dirname, 'deploy.sh')}`, {stdio: 'inherit'})
+  done()
 }
 
 function copyStaticFiles(done){
@@ -50,7 +70,6 @@ async function buildDevelopment(done){
 
 async function buildDevelopmentAdvanced(done){
   await createBuildDirectory()
-  runChildProcess('ln', ['-s', path.join(__dirname, 'img'), path.join(__dirname, 'build', 'img')])
   const compiler = webpack(webpackConfig.devAdvanced)
   const server = new webpackServer(compiler, webpackConfig.devAdvanced.devServer)
   server.listen(8000, (err) => {
@@ -68,3 +87,5 @@ exports.dev = buildDevelopment
 exports.lint = lint
 
 exports['dev-advanced'] = buildDevelopmentAdvanced
+
+exports.deploy = deploy
