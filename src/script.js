@@ -266,7 +266,7 @@ function WorkSampleCard(props) {
     </div>
   )
   const rowVersion = (
-    <div className="work-row">
+    <div onClick={handleClick} className="work-row">
       <div className="work-row-media">
         <img src={props.mediaSource} />
       </div>
