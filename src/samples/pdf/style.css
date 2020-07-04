@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    min-width: 100%;
+    min-height: 100vh;
+    padding: 0 4rem;
+}
+
+
+.page-metadata {
+    max-width: 60ch;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+@media (max-width: 650px) {
+    body {
+        min-width: 650px;
+    }
+}

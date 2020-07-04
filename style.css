@@ -220,6 +220,7 @@ h2 {
 }
 
 .work-row{
+    cursor: pointer;
     display: flex;
     margin: 2rem 0;
 }
